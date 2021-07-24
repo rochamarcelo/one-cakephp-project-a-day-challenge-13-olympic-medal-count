@@ -91,4 +91,7 @@ return [
             'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
         ],
     ],
+    'ImageSource' => [
+        'countryFlag' => 'https://a-url-with-country-flags',
+    ],
 ];
