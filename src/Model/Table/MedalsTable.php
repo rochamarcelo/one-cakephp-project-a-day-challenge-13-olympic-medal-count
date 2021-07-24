@@ -54,11 +54,25 @@ class MedalsTable extends Table
             'joinType' => 'INNER',
         ]);
 
-//        $this->addBehavior('CounterCache', [
-//            'Countries' => [
-//                'response_count'
-//            ],
-//        ]);
+        $this->addBehavior('CounterCache', [
+            'Countries' => [
+                'gold_medal_count' => [
+                    'conditions' => [
+                        'type' => Medal::TYPE_GOLD,
+                    ]
+                ],
+                'silver_medal_count' => [
+                    'conditions' => [
+                        'type' => Medal::TYPE_SILVER,
+                    ]
+                ],
+                'bronze_medal_count' => [
+                    'conditions' => [
+                        'type' => Medal::TYPE_BRONZE,
+                    ]
+                ],
+            ],
+        ]);
     }
 
     /**
