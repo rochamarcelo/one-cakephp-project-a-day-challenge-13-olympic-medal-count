@@ -853,9 +853,6 @@ class SampleSeed extends AbstractSeed
 
         $sports = [
             [
-                'name' => 'All Sports',
-            ],
-            [
                 'name' => '3x3 Basketball',
             ],
             [
