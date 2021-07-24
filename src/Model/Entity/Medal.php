@@ -12,6 +12,7 @@ use Cake\ORM\Entity;
  * @property int $sport_id
  * @property int $country_id
  * @property string $event_name
+ * @property string $type
  *
  * @property \App\Model\Entity\Sport $sport
  * @property \App\Model\Entity\Country $country

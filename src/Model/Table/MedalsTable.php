@@ -52,6 +52,12 @@ class MedalsTable extends Table
             'foreignKey' => 'country_id',
             'joinType' => 'INNER',
         ]);
+
+        $this->addBehavior('CounterCache', [
+            'Countries' => [
+                'response_count'
+            ],
+        ]);
     }
 
     /**
