@@ -73,6 +73,10 @@ $routes->scope('/', function (RouteBuilder $builder) {
     $builder->fallbacks();
 });
 
+$routes->scope('/admin', ['prefix' => 'Admin'], function ($routes) {
+    $routes->fallbacks(DashedRoute::class);
+});
+
 /*
  * If you need a different set of middleware or none at all,
  * open new scope and define routes there.
@@ -80,10 +84,10 @@ $routes->scope('/', function (RouteBuilder $builder) {
  * ```
  * $routes->scope('/api', function (RouteBuilder $builder) {
  *     // No $builder->applyMiddleware() here.
- *     
+ *
  *     // Parse specified extensions from URLs
  *     // $builder->setExtensions(['json', 'xml']);
- *     
+ *
  *     // Connect API actions here.
  * });
  * ```

@@ -19,6 +19,9 @@ use Cake\ORM\Entity;
  */
 class Medal extends Entity
 {
+    const TYPE_GOLD = 'gold';
+    const TYPE_SILVER = 'silver';
+    const TYPE_BRONZE = 'bronze';
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -32,6 +35,7 @@ class Medal extends Entity
         'sport_id' => true,
         'country_id' => true,
         'event_name' => true,
+        'type' => true,
         'sport' => true,
         'country' => true,
     ];

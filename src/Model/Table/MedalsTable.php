@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\Medal;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -53,11 +54,11 @@ class MedalsTable extends Table
             'joinType' => 'INNER',
         ]);
 
-        $this->addBehavior('CounterCache', [
-            'Countries' => [
-                'response_count'
-            ],
-        ]);
+//        $this->addBehavior('CounterCache', [
+//            'Countries' => [
+//                'response_count'
+//            ],
+//        ]);
     }
 
     /**
@@ -94,5 +95,14 @@ class MedalsTable extends Table
         $rules->add($rules->existsIn(['country_id'], 'Countries'), ['errorField' => 'country_id']);
 
         return $rules;
+    }
+
+    public function getTypeList(): array
+    {
+        return [
+            Medal::TYPE_GOLD => __('Gold'),
+            Medal::TYPE_SILVER => __('Silver'),
+            Medal::TYPE_BRONZE => __('Bronze'),
+        ];
     }
 }
