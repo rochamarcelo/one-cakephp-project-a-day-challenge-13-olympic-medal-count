@@ -137,7 +137,7 @@ class MedalsTable extends Table
             ->where([
                 'Medals.country_id' => $options['countryId']
             ])
-            ->group(['Medals.sport_id'])
+            ->group(['Medals.sport_id', 'Medals.type'])
             ->formatResults(function(ResultSet $resultSet) {
                 return $resultSet->groupBy('sport_id')
                     ->map(function($entries) {
@@ -147,7 +147,6 @@ class MedalsTable extends Table
                             'silver_medal_count' => 0,
                             'bronze_medal_count' => 0,
                         ];
-
                         return $this->setTotalByType($entries, $item);
                     })
                     ->toList();
