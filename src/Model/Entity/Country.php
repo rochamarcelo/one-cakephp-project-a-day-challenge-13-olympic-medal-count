@@ -14,6 +14,7 @@ use Cake\ORM\Entity;
  * @property int $gold_medal_count
  * @property int $silver_medal_count
  * @property int $bronze_medal_count
+ * @property int $medal_count
  *
  * @property \App\Model\Entity\Medal[] $medals
  */
@@ -36,4 +37,13 @@ class Country extends Entity
         'bronze_medal_count' => true,
         'medals' => true,
     ];
+
+    /**
+     * Get full medal count, accessor for $this->medal_count
+     * @return int
+     */
+    protected function _getMedalCount()
+    {
+        return $this->gold_medal_count + $this->silver_medal_count + $this->bronze_medal_count;
+    }
 }
