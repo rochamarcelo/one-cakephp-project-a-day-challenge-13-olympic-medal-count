@@ -33,4 +33,24 @@ class StandingsController extends AppController
         $this->set(compact('countries'));
     }
 
+    /**
+     *
+     * @param string|null $countryId
+     */
+    public function detail($countryId)
+    {
+        $this->viewBuilder()->disableAutoLayout();
+        $query = $this->Countries->Medals->find('detailCountry', [
+            'countryId' => $countryId,
+        ]);
+        $totals = $query->all();
+        $sports = $this->Countries->Medals->Sports->find('list')
+            ->where([
+                'id IN' => $totals->extract('sport_id')->toList(),
+            ])
+            ->toArray();
+
+        $this->set(compact('totals', 'sports'));
+    }
+
 }

@@ -5,6 +5,7 @@ namespace App\Model\Table;
 
 use App\Model\Entity\Medal;
 use Cake\ORM\Query;
+use Cake\ORM\ResultSet;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -119,4 +120,62 @@ class MedalsTable extends Table
             Medal::TYPE_BRONZE => __('Bronze'),
         ];
     }
+
+    /**
+     * @param Query $query
+     * @param array $options With key countryId
+     */
+    public function findDetailCountry(Query $query, $options)
+    {
+        $query = $query->select([
+            'count_medals' => $query->func()->count('Medals.id'),
+            'Medals.type',
+            'Medals.sport_id',
+        ]);
+
+        return $query
+            ->where([
+                'Medals.country_id' => $options['countryId']
+            ])
+            ->group(['Medals.sport_id'])
+            ->formatResults(function(ResultSet $resultSet) {
+                return $resultSet->groupBy('sport_id')
+                    ->map(function($entries) {
+                        $item = [
+                            'sport_id' => $entries[0]['sport_id'],
+                            'gold_medal_count' => 0,
+                            'silver_medal_count' => 0,
+                            'bronze_medal_count' => 0,
+                        ];
+
+                        return $this->setTotalByType($entries, $item);
+                    })
+                    ->toList();
+            });
+    }
+
+    /**
+     * @param array $entries
+     * @param array $item
+     * @return array
+     */
+    protected function setTotalByType($entries, array $item): array
+    {
+        foreach ($entries as $entry) {
+            switch ($entry['type']) {
+                case Medal::TYPE_GOLD:
+                    $item['gold_medal_count'] += $entry['count_medals'];
+                    break;
+                case Medal::TYPE_SILVER:
+                    $item['silver_medal_count'] += $entry['count_medals'];
+                    break;
+                case Medal::TYPE_BRONZE:
+                    $item['bronze_medal_count'] += $entry['count_medals'];
+                    break;
+            }
+            $item['medal_count'] = $item['gold_medal_count'] + $item['silver_medal_count'] + $item['bronze_medal_count'];
+        }
+        return $item;
+    }
+
 }
