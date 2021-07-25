@@ -5,7 +5,7 @@
  * @var array $sports
  */
 ?>
-<table class="table mb-0">
+<table class="table table-bordered mb-0">
     <thead>
     <tr>
         <th scope="col"><?= __('Sport')?></th>
