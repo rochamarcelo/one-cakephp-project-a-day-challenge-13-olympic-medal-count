@@ -1,53 +1,44 @@
-# CakePHP Application Skeleton
+# One CakePHP project a day challenge - Day 13 Olympic Medal Count
 
-![Build Status](https://github.com/cakephp/app/actions/workflows/ci.yml/badge.svg?branch=master)
-[![Total Downloads](https://img.shields.io/packagist/dt/cakephp/app.svg?style=flat-square)](https://packagist.org/packages/cakephp/app)
-[![PHPStan](https://img.shields.io/badge/PHPStan-level%207-brightgreen.svg?style=flat-square)](https://github.com/phpstan/phpstan)
+On this project I'm using CakePHP 4, CakeDC/Users plugin and Bootstrap 5
 
-A skeleton for creating applications with [CakePHP](https://cakephp.org) 4.x.
+## Steps to create this project
 
-The framework source code can be found here: [cakephp/cakephp](https://github.com/cakephp/cakephp).
+- 65b5c86 Init
+- 503ca09 Added Base Models:
+  ```
+  bin/cake bake migration CreateCountries name icon gold_medal_count:integer silver_medal_count:integer bronze_medal_count:integer
+  bin/cake bake migration CreateSports name
+  bin/cake bake migration CreateMedals sport_id:integer country_id:integer event_name
+  bin/cake migrations migrate
+  bin/cake bake model Countries
+  bin/cake bake model Sports
+  bin/cake bake model Medals
+  ```
+- cd9f06a Added Seed Data:
+  ```
+  bin/cake bake seed Sample
+  bin/cake migrations seed
+  ```
+- b43a122 Adde missing column 'type' to medals table|
+  ```
+  bin/cake AddTypeToMedals type|bin/cake bake migration  AddTypeToMedals type
+  bin/cake migrations migrate
+  ```
+- e1f17a6 Remove invalid sport
+- 3b1f70c Baked Pages to Manage Medals |
+  ```
+  bin/cake bake controller --prefix Admin Medals
+  bin/cake bake template --prefix Admin Medals
+  ```
+- 40fb0a5 Use CounterCache behavior to update count of gold, silver and bronze medal by country
+- 939267b Added action to display totals
+- 65af015 Added detail by country
+- 4bc66db Fixed query of totals to group by type
+- 48d6f62 Added icons and improved layout
+- 6f6a51e Added users plugin
 
-## Installation
+## Result
+![alt text](./result-13-olympics-medal-count-01.png)
 
-1. Download [Composer](https://getcomposer.org/doc/00-intro.md) or update `composer self-update`.
-2. Run `php composer.phar create-project --prefer-dist cakephp/app [app_name]`.
-
-If Composer is installed globally, run
-
-```bash
-composer create-project --prefer-dist cakephp/app
-```
-
-In case you want to use a custom app dir name (e.g. `/myapp/`):
-
-```bash
-composer create-project --prefer-dist cakephp/app myapp
-```
-
-You can now either use your machine's webserver to view the default home page, or start
-up the built-in webserver with:
-
-```bash
-bin/cake server -p 8765
-```
-
-Then visit `http://localhost:8765` to see the welcome page.
-
-## Update
-
-Since this skeleton is a starting point for your application and various files
-would have been modified as per your needs, there isn't a way to provide
-automated upgrades, so you have to do any updates manually.
-
-## Configuration
-
-Read and edit the environment specific `config/app_local.php` and setup the 
-`'Datasources'` and any other configuration relevant for your application.
-Other environment agnostic settings can be changed in `config/app.php`.
-
-## Layout
-
-The app skeleton uses [Milligram](https://milligram.io/) (v1.3) minimalist CSS
-framework by default. You can, however, replace it with any other library or
-custom styles.
+### Medal icons from https://www.svgrepo.com/
